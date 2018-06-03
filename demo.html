@@ -102,7 +102,7 @@ var app = new Vue({
 			var c = this.winning_combinations[i][2];
 			if(this.tictac_board[a].state !== "" && this.tictac_board[b].state !== "" && this.tictac_board[c].state !== ""){
 				if (this.tictac_board[a].state === this.tictac_board[b].state && this.tictac_board[a].state === this.tictac_board[c].state) {
-					this.display_winner(this.tictac_board[0].state);
+					this.display_winner(this.tictac_board[a].state);
 					return;
 				}
 			}
