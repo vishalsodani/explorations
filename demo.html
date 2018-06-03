@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta name="viewport" content="width=device-width">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <style>
@@ -87,7 +88,7 @@ var app = new Vue({
 		}
 		
 		if (this.tictac_board[1] === this.tictac_board[4] && this.tictac_board[1] === this.tictac_board[7]) {
-			this.display_winner(this.tictac_board[0]);
+			this.display_winner(this.tictac_board[1]);
 			return;
 		}
 		
