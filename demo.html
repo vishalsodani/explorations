@@ -34,19 +34,19 @@ width:80%
 <h3 align="center"> {{message}} </h3>
 <table width="300px">
 <tr>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[0].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[1].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[2].state" v-on:input_given="updateState"></input-button></td>
 </tr>
 <tr>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[3].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[4].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[5].state" v-on:input_given="updateState"></input-button></td>
 </tr>
 <tr>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="inputis" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[6].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[7].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[8].state" v-on:input_given="updateState"></input-button></td>
 </tr>
 
 
@@ -62,11 +62,9 @@ var app = new Vue({
   data: {
     message: 'Play Tic Tac Toe', 
 	current_state: 'nothing',
-	tictac_board: [-1,-2,-3,-4,-5,-6,-7,-8,-9],
+	tictac_board: [{'state':""}, {'state':""}, {'state':""}, {'state':""} , {'state':""} , {'state':""}, {'state':""} , {'state':""}, {'state':""}],
+	winning_combinations: [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5, 8], [0,4,8], [2,4,6]],
 	counter:0,
-	inputis:"",
-	
-	
   },
   methods: {
     updateState: function (event) {
@@ -74,24 +72,18 @@ var app = new Vue({
 	  this.counter += 1;
       if (this.current_state === 'nothing'){
 		this.current_state = 'X';
-		//event.target.value = 'X';
-		event.inputdata = 'X';
-		this.tictac_board[event._uid-1] = 'X';
+		this.tictac_board[event._uid-1].state = 'X';
 		return;
 	  }
 	  if (this.current_state === 'X'){
 		this.current_state = '0';
-		//event.target.value = '0';
-		event.inputdata = '0';
-		this.tictac_board[event._uid-1] = '0';
+		this.tictac_board[event._uid-1].state = '0';
 		this.is_winning();
 		return;
 	  }
 	  if (this.current_state === '0'){
 		this.current_state = 'X';
-		//event.target.value = 'X';
-		event.inputdata = 'X';
-		this.tictac_board[event._uid-1] = 'X';
+		this.tictac_board[event._uid-1].state = 'X';
 		this.is_winning();
 		return;
 	  }
@@ -102,32 +94,42 @@ var app = new Vue({
 	},
 	
 	is_winning:function() {
-		if (this.tictac_board[0] === this.tictac_board[1] && this.tictac_board[1] === this.tictac_board[2]) {
-			this.display_winner(this.tictac_board[0]);
+	
+		for(var i=0; i < this.winning_combinations.length; i++)
+		{
+			var a = this.winning_combinations[i][0]
+			var b = this.winning_combinations[i][1];
+			var c = this.winning_combinations[i][2];
+			if(this.tictac_board[a].state !== "" && this.tictac_board[b].state !== "" && this.tictac_board[c].state !== ""){
+				if (this.tictac_board[a].state === this.tictac_board[b].state && this.tictac_board[a].state === this.tictac_board[c].state) {
+					this.display_winner(this.tictac_board[0].state);
+					return;
+				}
+			}
+		}
+		
+		
+		/* if (this.tictac_board[0].state === this.tictac_board[3].state && this.tictac_board[0].state === this.tictac_board[6].state ) {
+			this.display_winner(this.tictac_board[0].state);
 			return;
 		}
 		
-		if (this.tictac_board[0] === this.tictac_board[3] && this.tictac_board[0] === this.tictac_board[6]) {
-			this.display_winner(this.tictac_board[0]);
+		if (this.tictac_board[1].state === this.tictac_board[4].state && this.tictac_board[1].state === this.tictac_board[7].state ) {
+			this.display_winner(this.tictac_board[1].state);
 			return;
 		}
 		
-		if (this.tictac_board[1] === this.tictac_board[4] && this.tictac_board[1] === this.tictac_board[7]) {
-			this.display_winner(this.tictac_board[1]);
+		if (this.tictac_board[2].state === this.tictac_board[5].state && this.tictac_board[2].state === this.tictac_board[8].state ) {
+			this.display_winner(this.tictac_board[2].state);
 			return;
 		}
 		
-		if (this.tictac_board[2] === this.tictac_board[5] && this.tictac_board[2] === this.tictac_board[8]) {
-			this.display_winner(this.tictac_board[2]);
+		if (this.tictac_board[3].state === this.tictac_board[4].state && this.tictac_board[4].state === this.tictac_board[5].state) {
+			this.display_winner(this.tictac_board[3].state);
 			return;
 		}
-		
-		if (this.tictac_board[3] === this.tictac_board[4] && this.tictac_board[4] === this.tictac_board[5]) {
-			this.display_winner(this.tictac_board[3]);
-			return;
-		}
-		if (this.tictac_board[6] === this.tictac_board[7] && this.tictac_board[6] === this.tictac_board[8]) {
-			this.display_winner(this.tictac_board[6]);
+		if (this.tictac_board[6].state === this.tictac_board[7].state && this.tictac_board[6].state === this.tictac_board[8].state) {
+			this.display_winner(this.tictac_board[6].state);
 			return;
 		}
 		
@@ -140,7 +142,7 @@ var app = new Vue({
 			this.display_winner(this.tictac_board[2]);
 			return;
 		}
-		
+		 */
 		if(this.counter == 9){
 			alert('draw');
 		}
