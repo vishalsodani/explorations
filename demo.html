@@ -34,19 +34,19 @@ width:80%
 <h3 align="center"> {{message}} </h3>
 <table width="300px">
 <tr>
-	<td><input-button :inputdata="tictac_board[0].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[1].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[2].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[0]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[1]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[2]" v-on:input_given="updateState"></input-button></td>
 </tr>
 <tr>
-	<td><input-button :inputdata="tictac_board[3].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[4].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[5].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[3]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[4]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[5]" v-on:input_given="updateState"></input-button></td>
 </tr>
 <tr>
-	<td><input-button :inputdata="tictac_board[6].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[7].state" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[8].state" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[6]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[7]" v-on:input_given="updateState"></input-button></td>
+	<td><input-button :inputdata="tictac_board[8]" v-on:input_given="updateState"></input-button></td>
 </tr>
 
 
@@ -62,7 +62,7 @@ var app = new Vue({
   data: {
     message: 'Play Tic Tac Toe', 
 	current_state: 'nothing',
-	tictac_board: [{'state':""}, {'state':""}, {'state':""}, {'state':""} , {'state':""} , {'state':""}, {'state':""} , {'state':""}, {'state':""}],
+	tictac_board: ["","","","","","","","",""],
 	winning_combinations: [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5, 8], [0,4,8], [2,4,6]],
 	counter:0,
   },
@@ -72,22 +72,26 @@ var app = new Vue({
 	  this.counter += 1;
       if (this.current_state === 'nothing'){
 		this.current_state = 'X';
-		this.tictac_board[event._uid-1].state = 'X';
+		this.updateBoard(event._uid-1, 'X');
 		return;
 	  }
 	  if (this.current_state === 'X'){
 		this.current_state = '0';
-		this.tictac_board[event._uid-1].state = '0';
+		this.updateBoard(event._uid-1, '0');
 		this.is_winning();
 		return;
 	  }
 	  if (this.current_state === '0'){
 		this.current_state = 'X';
-		this.tictac_board[event._uid-1].state = 'X';
+		this.updateBoard(event._uid-1, 'X');
 		this.is_winning();
 		return;
 	  }
     },
+	
+	updateBoard(index, value){
+		Vue.set(this.tictac_board, index, value);
+	},
 	
 	display_winner: function(player) {
 		alert(player + ' Wins!!') ;
@@ -100,9 +104,9 @@ var app = new Vue({
 			var a = this.winning_combinations[i][0]
 			var b = this.winning_combinations[i][1];
 			var c = this.winning_combinations[i][2];
-			if(this.tictac_board[a].state !== "" && this.tictac_board[b].state !== "" && this.tictac_board[c].state !== ""){
-				if (this.tictac_board[a].state === this.tictac_board[b].state && this.tictac_board[a].state === this.tictac_board[c].state) {
-					this.display_winner(this.tictac_board[a].state);
+			if(this.tictac_board[a] !== "" && this.tictac_board[b] !== "" && this.tictac_board[c] !== ""){
+				if (this.tictac_board[a] === this.tictac_board[b] && this.tictac_board[a] === this.tictac_board[c]) {
+					this.display_winner(this.tictac_board[a]);
 					return;
 				}
 			}
