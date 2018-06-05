@@ -34,19 +34,14 @@ width:80%
 <h3 align="center"> {{message}} </h3>
 <table width="300px">
 <tr>
-	<td><input-button :inputdata="tictac_board[0]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[1]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[2]" v-on:input_given="updateState"></input-button></td>
+	<td v-for="n in 3"><input-button :inputdata="tictac_board[n-1]" v-on:input_given="updateState"></input-button></td>
+
 </tr>
 <tr>
-	<td><input-button :inputdata="tictac_board[3]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[4]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[5]" v-on:input_given="updateState"></input-button></td>
-</tr>
+	<td v-for="n in 3"><input-button :inputdata="tictac_board[n+2]" v-on:input_given="updateState"></input-button></td>
+	</tr>
 <tr>
-	<td><input-button :inputdata="tictac_board[6]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[7]" v-on:input_given="updateState"></input-button></td>
-	<td><input-button :inputdata="tictac_board[8]" v-on:input_given="updateState"></input-button></td>
+	<td v-for="n in 3"><input-button :inputdata="tictac_board[n+5]" v-on:input_given="updateState"></input-button></td>
 </tr>
 
 
