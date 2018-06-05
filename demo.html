@@ -95,6 +95,11 @@ var app = new Vue({
 	
 	display_winner: function(player) {
 		alert(player + ' Wins!!') ;
+		for(var i=0;i<9;i++){
+			Vue.set(this.tictac_board, i, "");
+			this.current_state = 'nothing';
+			this.counter = 0;
+		}
 	},
 	
 	is_winning:function() {
