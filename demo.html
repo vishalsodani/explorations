@@ -95,6 +95,10 @@ var app = new Vue({
 	
 	display_winner: function(player) {
 		alert(player + ' Wins!!') ;
+		this.restartGame();
+	},
+	
+	restartGame: function(){
 		for(var i=0;i<9;i++){
 			Vue.set(this.tictac_board, i, "");
 			this.current_state = 'nothing';
@@ -119,6 +123,7 @@ var app = new Vue({
 		
 		if(this.counter == 9){
 			alert('draw');
+			this.restartGame();
 		}
 	}
   }
